@@ -33,7 +33,7 @@ def list_reviews(
     return reviews
 
 
-@router.get("/average/{playname}")
+@router.get("/average/{play_name}")
 def get_average_rating(play_name: str, session: Session = Depends(get_session)):
     result = session.exec(
         select(func.avg(Review.rating), func.count(Review.id)).where(
@@ -49,7 +49,7 @@ def get_average_rating(play_name: str, session: Session = Depends(get_session)):
     return {
         "play_name": play_name,
         "average_rating": round(avg_rating, 2),
-        "total_review": total_reviews,
+        "total_reviews": total_reviews,
     }
 
 
@@ -87,7 +87,7 @@ def update_review(
 
 
 @router.delete("/{review_id}")
-def update_review(review_id: int, session: Session = Depends(get_session)):
+def delete_review(review_id: int, session: Session = Depends(get_session)):
     review = session.get(Review, review_id)
 
     if not review:
